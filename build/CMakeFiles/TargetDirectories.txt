@@ -1,0 +1,3 @@
+/home/pops/Logger/build/CMakeFiles/rebuild_cache.dir
+/home/pops/Logger/build/CMakeFiles/edit_cache.dir
+/home/pops/Logger/build/CMakeFiles/logger.dir
