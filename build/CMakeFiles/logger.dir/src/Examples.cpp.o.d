@@ -1,5 +1,5 @@
-CMakeFiles/logger.dir/src/main.cpp.o: /home/pops/Logger/src/main.cpp \
- /usr/include/stdc-predef.h /home/pops/Logger/src/Examples.cpp \
+CMakeFiles/logger.dir/src/Examples.cpp.o: \
+ /home/pops/Logger/src/Examples.cpp /usr/include/stdc-predef.h \
  /home/pops/Logger/include/logger.h /usr/include/c++/5/iostream \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \

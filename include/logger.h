@@ -12,13 +12,8 @@
 
 namespace Logger_Project
 {
-#define FILE_LOG_TEST false
-#define CONSOLE_TEST true
-
-#define LOG_ERROR(x) Logger::getInstance()->error(x)
-#define LOG_INFO(x) Logger::getInstance()->info(x)
-#define LOG_TRACE(x) Logger::getInstance()->trace(x)
-#define LOG_DEBUG(x) Logger::getInstance()->debug(x)
+#define FILE_LOG false
+#define CONSOLE_LOG true
 
     typedef enum LOG_LEVEL
     {
@@ -35,23 +30,61 @@ namespace Logger_Project
     public:
         static Logger *getInstance();
 
-        // Error Log
+        // Error log
+        template <typename arg, typename... args>
+        void error(arg var1, args... var2)
+        {
+            if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
+            {
+                std::cout << RED << "[ERROR] " << getCurrentTime() << " ";
+                errorHelper(var1, var2...);
+            }
+        }
 
-        void error(const char *text);
-        void error(std::string &text);
-        void error(std::ostringstream &stream);
+        template <typename arg, typename... args>
+        void errorHelper(arg var1, args... var2)
+        {
+            std::cout << var1 << " ";
+            errorHelper(var2...);
+        }
 
-        // Info Log
-        void info(const char *text);
-        void info(std::string &text);
-        void info(std::ostringstream &stream);
+        void errorHelper()
+        {
+            std::cout << RESET << std::endl;
+        }
+
+        // Info log
+        template <typename arg, typename... args>
+        void info(arg var1, args... var2)
+        {
+            if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_INFO))
+            {
+                std::cout << MAGENTA << "[INFO] " << getCurrentTime() << " ";
+                infoHelper(var1, var2...);
+            }
+        }
+
+        template <typename arg, typename... args>
+        void infoHelper(arg var1, args... var2)
+        {
+            std::cout << var1 << " ";
+            infoHelper(var2...);
+        }
+
+        void infoHelper()
+        {
+            std::cout << RESET << std::endl;
+        }
 
         // Trace log
         template <typename arg, typename... args>
         void trace(arg var1, args... var2)
         {
-            std::cout << RED << "[TRACE] " << getCurrentTime() << " ";
-            traceHelper(var1, var2...);
+            if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_TRACE))
+            {
+                std::cout << CYAN << "[TRACE] " << getCurrentTime() << " ";
+                traceHelper(var1, var2...);
+            }
         }
 
         template <typename arg, typename... args>
@@ -66,15 +99,32 @@ namespace Logger_Project
             std::cout << RESET << std::endl;
         }
 
-
         // Debug log
-        void debug(const char *text);
-        void debug(std::string &text);
-        void debug(std::ostringstream &stream);
+        template <typename arg, typename... args>
+        void debug(arg var1, args... var2)
+        {
+            if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_DEBUG))
+            {
+                std::cout << YELLOW << "[DEBUG] " << getCurrentTime() << " ";
+                debugHelper(var1, var2...);
+            }
+        }
+
+        template <typename arg, typename... args>
+        void debugHelper(arg var1, args... var2)
+        {
+            std::cout << var1 << " ";
+            debugHelper(var2...);
+        }
+
+        void debugHelper()
+        {
+            std::cout << RESET << std::endl;
+        }
 
         // log levels
         void updateLogLevel(LogLevel logLevel);
-        void enaleLog();   // Enable all log levels
+        void enableLog();   // Enable all log levels
         void disableLog(); // Disable all log levels
 
         std::string getCurrentTime();

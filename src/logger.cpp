@@ -17,7 +17,6 @@ std::string LogMidName()
    return currentTime;
 }
 
-
 Logger::Logger()
 {
    //Log file name
@@ -28,9 +27,7 @@ Logger::Logger()
 
    m_File.open(logFileName.c_str(), std::ios::out|std::ios::app);
 
-   m_LogLevel	= ENABLE_LOG;
-
-   
+   m_LogLevel = ENABLE_LOG;   
 }
 
 Logger::~Logger()
@@ -72,106 +69,19 @@ void Logger::logOnConsole(std::string& data)
 
 }
 
+// Get timeStamp in human readable form
 std::string Logger::getCurrentTime()
 {
    std::string currTime;
    //Current date/time based on current time
    time_t now = time(0); 
+
    // Convert current time to string
    currTime.assign(ctime(&now));
 
    // Last charactor of currentTime is "\n", so remove it
    std::string currentTime = currTime.substr(0, currTime.size()-1);
    return currentTime;
-}
-
-// Error Log
-void Logger::error(const char* text)
-{
-   std::string data;
-   data.append("[ERROR]: ");
-   data.append(text);
-   m_currentLog = LOG_LEVEL_ERROR;
-
-   if((FILE_LOG_TEST) && (m_LogLevel >= LOG_LEVEL_ERROR))
-   {
-      logIntoFile(data);
-   }
-   if((CONSOLE_TEST) && (m_LogLevel >= LOG_LEVEL_ERROR))
-   {
-      logOnConsole(data);
-   }
-
-}
-
-void Logger::error(std::string& text)
-{
-   error(text.data());
-}
-
-void Logger::error(std::ostringstream& stream)
-{
-   std::string text = stream.str();
-   error(text.data());
-}
-
-// Info Log
-void Logger::info(const char* text)
-{
-   std::string data;
-   data.append("[INFO]: ");
-   data.append(text);
-   m_currentLog = LOG_LEVEL_INFO;
-
-   if((FILE_LOG_TEST) && (m_LogLevel >= LOG_LEVEL_INFO))
-   {
-      logIntoFile(data);
-   }
-   if((CONSOLE_TEST) && (m_LogLevel >= LOG_LEVEL_INFO))
-   {
-      logOnConsole(data);
-   }
-}
-
-void Logger::info(std::string& text)
-{
-   info(text.data());
-}
-
-void Logger::info(std::ostringstream& stream)
-{
-   std::string text = stream.str();
-   info(text.data());
-}
-
-
-// Debug Log
-void Logger::debug(const char* text)
-{
-   std::string data;
-   data.append("[DEBUG]: ");
-   data.append(text);
-   m_currentLog = LOG_LEVEL_DEBUG;
-
-   if((FILE_LOG_TEST) && (m_LogLevel >= LOG_LEVEL_DEBUG))
-   {
-      logIntoFile(data);
-   }
-   if((CONSOLE_TEST) && (m_LogLevel >= LOG_LEVEL_DEBUG))
-   {
-      logOnConsole(data);
-   }
-}
-
-void Logger::debug(std::string& text)
-{
-   debug(text.data());
-}
-
-void Logger::debug(std::ostringstream& stream)
-{
-   std::string text = stream.str();
-   debug(text.data());
 }
 
 // log levels
@@ -181,7 +91,7 @@ void Logger::updateLogLevel(LogLevel logLevel)
 }
 
 // Enable all log levels
-void Logger::enaleLog()
+void Logger::enableLog()
 {
    m_LogLevel = ENABLE_LOG; 
 }
@@ -191,8 +101,3 @@ void Logger:: disableLog()
 {
    m_LogLevel = DISABLE_LOG;
 }
-
-// int main(){
-//     std::cout << "Start writing logger" << std::endl;
-//     Logger_Project::Logger::getInstance()->trace("Hello",98,78,1.8,true);
-// }

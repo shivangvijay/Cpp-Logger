@@ -160,6 +160,7 @@ CMakeFiles/logger.dir/src/logger.cpp.o: ../src/logger.cpp \
 
 CMakeFiles/logger.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/stdc-predef.h \
+  ../src/Examples.cpp \
   ../include/logger.h \
   /usr/include/c++/5/iostream \
   /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
@@ -523,6 +524,8 @@ CMakeFiles/logger.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/c++/5/bits/exception_defines.h:
 
 /usr/include/xlocale.h:
+
+../src/Examples.cpp:
 
 /usr/include/c++/5/type_traits:
 
