@@ -1,0 +1,15 @@
+[INFO] Sun Jul 31 21:59:46 2022 You can put any number of argument of any type in logger functions 
+[INFO] Sun Jul 31 21:59:46 2022 You can check examples in Examples.cpp 
+[INFO] Sun Jul 31 21:59:46 2022 Logger Example 1 
+[TRACE] Sun Jul 31 21:59:46 2022 Trace Log example:-  String: TestString Printing Double:- 97.9 Printing Int:- 23 Printing Bool:- 1 
+[DEBUG] Sun Jul 31 21:59:46 2022 Debug Log example:-  String 23.8 53 1 
+[ERROR] Sun Jul 31 21:59:46 2022 Error Log example:-  String 67.8 97 1 
+[INFO] Sun Jul 31 21:59:46 2022 Info Log example:-  String 45.7 65 0 
+[INFO] Sun Jul 31 21:59:46 2022 Logger Example 2 
+[TRACE] Sun Jul 31 21:59:46 2022 Trace Log example:-  String: TestString Printing Double:- 97.9 Printing Int:- 23 Printing Bool:- 1 
+[DEBUG] Sun Jul 31 21:59:46 2022 Debug Log example:-  String 23.8 53 1 
+[ERROR] Sun Jul 31 21:59:46 2022 Error Log example:-  String 67.8 97 1 
+[INFO] Sun Jul 31 21:59:46 2022 Info Log example:-  String 45.7 65 0 
+[INFO] Sun Jul 31 21:59:46 2022 Logger Example of enable and disable 
+[ERROR] Sun Jul 31 21:59:46 2022 Error Log example:-  String 67.8 97 1 
+[INFO] Sun Jul 31 21:59:46 2022 Info Log example:-  String 45.7 65 0 

@@ -1,3 +1,9 @@
+/**
+* @file logger.h
+* @author Shivang Vijay (shivang.vijay@gmail.com)
+* @version 1.0 
+**/
+
 #ifndef _LOGGER_H_
 #define _LOGGER_H_
 
@@ -10,11 +16,11 @@
 #include <ctime>
 #include "config.h"
 
-namespace Logger_Project
-{
-#define FILE_LOG false
+#define FILE_LOG true
 #define CONSOLE_LOG true
 
+namespace Logger_Project
+{
     typedef enum LOG_LEVEL
     {
         DISABLE_LOG = 1,
@@ -34,92 +40,82 @@ namespace Logger_Project
         template <typename arg, typename... args>
         void error(arg var1, args... var2)
         {
-            if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
+            std::unique_lock<std::mutex> lock(m_mutex);
+            if(m_LogLevel >= LOG_LEVEL_ERROR)
             {
-                std::cout << RED << "[ERROR] " << getCurrentTime() << " ";
-                errorHelper(var1, var2...);
+                if((FILE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
+                {
+                    m_File << "[ERROR] " << getCurrentTime() << " ";
+                }
+
+                if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
+                {
+                    std::cout << RED << "[ERROR] " << getCurrentTime() << " ";
+                    // errorHelper(var1, var2...);
+                }
+                lock.unlock();
+                helper(var1, var2...);
             }
-        }
-
-        template <typename arg, typename... args>
-        void errorHelper(arg var1, args... var2)
-        {
-            std::cout << var1 << " ";
-            errorHelper(var2...);
-        }
-
-        void errorHelper()
-        {
-            std::cout << RESET << std::endl;
         }
 
         // Info log
         template <typename arg, typename... args>
         void info(arg var1, args... var2)
         {
-            if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_INFO))
+            std::unique_lock<std::mutex> lock(m_mutex);
+            if(m_LogLevel >= LOG_LEVEL_INFO)
             {
-                std::cout << MAGENTA << "[INFO] " << getCurrentTime() << " ";
-                infoHelper(var1, var2...);
+                if((FILE_LOG))
+                {
+                    m_File << "[INFO] " << getCurrentTime() << " ";
+                }
+                if((CONSOLE_LOG))
+                {
+                    std::cout << MAGENTA << "[INFO] " << getCurrentTime() << " ";
+                }
+                lock.unlock();
+                helper(var1, var2...);
             }
-        }
-
-        template <typename arg, typename... args>
-        void infoHelper(arg var1, args... var2)
-        {
-            std::cout << var1 << " ";
-            infoHelper(var2...);
-        }
-
-        void infoHelper()
-        {
-            std::cout << RESET << std::endl;
         }
 
         // Trace log
         template <typename arg, typename... args>
         void trace(arg var1, args... var2)
         {
-            if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_TRACE))
+            std::unique_lock<std::mutex> lock(m_mutex);
+            if(m_LogLevel >= LOG_LEVEL_TRACE)
             {
-                std::cout << CYAN << "[TRACE] " << getCurrentTime() << " ";
-                traceHelper(var1, var2...);
+                if((FILE_LOG))
+                {
+                    m_File << "[TRACE] " << getCurrentTime() << " ";
+                }
+                if((CONSOLE_LOG))
+                {
+                    std::cout << CYAN << "[TRACE] " << getCurrentTime() << " ";
+                }
+                lock.unlock();
+                helper(var1, var2...);
             }
-        }
-
-        template <typename arg, typename... args>
-        void traceHelper(arg var1, args... var2)
-        {
-            std::cout << var1 << " ";
-            traceHelper(var2...);
-        }
-
-        void traceHelper()
-        {
-            std::cout << RESET << std::endl;
         }
 
         // Debug log
         template <typename arg, typename... args>
         void debug(arg var1, args... var2)
         {
-            if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_DEBUG))
+            std::unique_lock<std::mutex> lock(m_mutex);
+            if(m_LogLevel >= LOG_LEVEL_DEBUG)
             {
-                std::cout << YELLOW << "[DEBUG] " << getCurrentTime() << " ";
-                debugHelper(var1, var2...);
+                if((FILE_LOG))
+                {
+                    m_File << "[DEBUG] " << getCurrentTime() << " ";
+                }
+                if((CONSOLE_LOG))
+                {
+                    std::cout << YELLOW << "[DEBUG] " << getCurrentTime() << " ";
+                }
+                lock.unlock();
+                helper(var1, var2...);
             }
-        }
-
-        template <typename arg, typename... args>
-        void debugHelper(arg var1, args... var2)
-        {
-            std::cout << var1 << " ";
-            debugHelper(var2...);
-        }
-
-        void debugHelper()
-        {
-            std::cout << RESET << std::endl;
         }
 
         // log levels
@@ -127,29 +123,37 @@ namespace Logger_Project
         void enableLog();   // Enable all log levels
         void disableLog(); // Disable all log levels
 
-        std::string getCurrentTime();
-
-    protected:
-        Logger();
-        ~Logger();
-
-        void lock();
-        void unlock();
-
     private:
-        void logIntoFile(std::string &data);
-        void logOnConsole(std::string &data);
+        // helper function
+        template <typename arg, typename... args>
+        void helper(arg var1, args... var2)
+        {
+            std::unique_lock<std::mutex> lock(m_mutex);
+            if((FILE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
+            {
+                m_File << var1 << " ";
+            }
+            if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
+            {
+                std::cout << var1 << " ";
+            }
+            lock.unlock();
+            helper(var2...);
+        }
+
+        void helper();
+        Logger();
+        ~Logger();    
         Logger(const Logger &obj) {}
+        std::string getCurrentTime(); // timestamp
         void operator=(const Logger &obj) {}
 
     private:
         static Logger *m_Instance;
         std::ofstream m_File;
-
         LogLevel m_LogLevel;
         LogLevel m_currentLog;
+        std::mutex m_mutex;
     };
-
 }
-
 #endif // End of _LOGGER_H_

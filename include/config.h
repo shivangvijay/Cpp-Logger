@@ -1,3 +1,9 @@
+/**
+* @file config.h
+* @author Shivang Vijay (shivang.vijay@gmail.com)
+* @version 1.0 
+**/
+
 #pragma once
 
 //=================================================//

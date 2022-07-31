@@ -1,3 +1,9 @@
+/**
+* @file logger.cpp
+* @author Shivang Vijay (shivang.vijay@gmail.com)
+* @version 1.0 
+**/
+
 #include "logger.h"
 
 using namespace Logger_Project;
@@ -9,6 +15,7 @@ std::string LogMidName()
    std::string currTime;
    //Current date/time based on current time
    time_t now = time(0); 
+
    // Convert current time to string
    currTime.assign(ctime(&now));
 
@@ -20,18 +27,17 @@ std::string LogMidName()
 Logger::Logger()
 {
    //Log file name
-   std::string prefix = "../logs/NAME_";
+   std::string prefix = "../logs/<CUSTOMENAME>_"; 
    std::string suffix = ".log";
    std::string middleDiff = LogMidName();
    const std::string logFileName = prefix + middleDiff + suffix;
-
    m_File.open(logFileName.c_str(), std::ios::out|std::ios::app);
 
-   m_LogLevel = ENABLE_LOG;   
+   // Replace Enable log to change the log level
+   m_LogLevel = ENABLE_LOG;      
 }
 
-Logger::~Logger()
-{}
+Logger::~Logger() {}
 
 Logger* Logger::getInstance()
 {
@@ -42,31 +48,17 @@ Logger* Logger::getInstance()
    return m_Instance;
 }
 
-
-void Logger::logIntoFile(std::string& data)
+void Logger::helper()
 {
-   m_File << getCurrentTime() << "  " << data << std::endl;
-}
-
-void Logger::logOnConsole(std::string& data)
-{
-   if(m_currentLog==LOG_LEVEL_ERROR)
+   std::lock_guard<std::mutex> lock(m_mutex);
+   if((FILE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
    {
-      std::cout << BOLDRED <<getCurrentTime() << "  " << data << std::endl << RESET;
+         m_File << std::endl;
    }
-   else if(m_currentLog==LOG_LEVEL_INFO)
+   if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
    {
-      std::cout << GREEN << getCurrentTime() << "  " <<  data << std::endl << RESET;
+         std::cout << RESET << std::endl;
    }
-   else if(m_currentLog==LOG_LEVEL_TRACE)
-   {
-      std::cout << MAGENTA << getCurrentTime() << "  " <<  data << std::endl << RESET;
-   }
-   else if(m_currentLog==LOG_LEVEL_DEBUG)
-   {
-      std::cout << YELLOW << getCurrentTime() << "  " <<  data << std::endl << RESET;
-   }
-
 }
 
 // Get timeStamp in human readable form
