@@ -18,6 +18,7 @@
 
 #define FILE_LOG true
 #define CONSOLE_LOG true
+#define FILE_SIZE_IN_MB 50   //for rollover
 
 namespace Logger_Project
 {
@@ -25,18 +26,30 @@ namespace Logger_Project
     {
         DISABLE_LOG = 1,
         LOG_LEVEL_ERROR = 2,
-        LOG_LEVEL_INFO = 3,
-        LOG_LEVEL_TRACE = 4,
-        LOG_LEVEL_DEBUG = 5,
+        LOG_LEVEL_TRACE = 3,
+        LOG_LEVEL_DEBUG = 4,
+        LOG_LEVEL_INFO = 5,
         ENABLE_LOG = 6,
     } LogLevel;
 
     class Logger
     {
     public:
+        /**
+         * @brief Get the Instance object
+         * 
+         * @return Logger* 
+         */
         static Logger *getInstance();
 
-        // Error log
+        /**
+         * @brief error llog
+         * 
+         * @tparam arg 
+         * @tparam args 
+         * @param var1 
+         * @param var2 
+         */
         template <typename arg, typename... args>
         void error(arg var1, args... var2)
         {
@@ -58,7 +71,14 @@ namespace Logger_Project
             }
         }
 
-        // Info log
+        /**
+         * @brief info log
+         * 
+         * @tparam arg 
+         * @tparam args 
+         * @param var1 
+         * @param var2 
+         */
         template <typename arg, typename... args>
         void info(arg var1, args... var2)
         {
@@ -78,7 +98,14 @@ namespace Logger_Project
             }
         }
 
-        // Trace log
+        /**
+         * @brief trace log
+         * 
+         * @tparam arg 
+         * @tparam args 
+         * @param var1 
+         * @param var2 
+         */
         template <typename arg, typename... args>
         void trace(arg var1, args... var2)
         {
@@ -98,7 +125,14 @@ namespace Logger_Project
             }
         }
 
-        // Debug log
+        /**
+         * @brief debug log
+         * 
+         * @tparam arg 
+         * @tparam args 
+         * @param var1 
+         * @param var2 
+         */
         template <typename arg, typename... args>
         void debug(arg var1, args... var2)
         {
@@ -118,13 +152,34 @@ namespace Logger_Project
             }
         }
 
-        // log levels
+        /**
+         * @brief update log level
+         * 
+         * @param logLevel 
+         */
         void updateLogLevel(LogLevel logLevel);
-        void enableLog();   // Enable all log levels
-        void disableLog(); // Disable all log levels
+
+        /**
+         * @brief Enable all log levels
+         * 
+         */
+        void enableLog();
+
+        /**
+         * @brief Disable all log levels
+         * 
+         */
+        void disableLog();
 
     private:
-        // helper function
+        /**
+         * @brief Helper function
+         * 
+         * @tparam arg 
+         * @tparam args 
+         * @param var1 
+         * @param var2 
+         */
         template <typename arg, typename... args>
         void helper(arg var1, args... var2)
         {
@@ -141,12 +196,58 @@ namespace Logger_Project
             helper(var2...);
         }
 
+        /**
+         * @brief 
+         * 
+         */
         void helper();
+
+        /**
+         * @brief Construct a new Logger object
+         * 
+         */
         Logger();
-        ~Logger();    
+
+        /**
+         * @brief Destroy the Logger object
+         * 
+         */
+        ~Logger();   
+
+        /**
+         * @brief Construct a new Logger object
+         * 
+         * @param obj 
+         */
         Logger(const Logger &obj) {}
-        std::string getCurrentTime(); // timestamp
+
+        /**
+         * @brief Get the Current Time Stamp object
+         * 
+         * @return std::string 
+         */
+        std::string getCurrentTime();
+
+        /**
+         * @brief 
+         * 
+         * @param obj 
+         */
         void operator=(const Logger &obj) {}
+
+        /**
+         * @brief to calculate filesize
+         * 
+         * @param filename 
+         * @return std::ifstream::pos_type 
+         */
+        std::ifstream::pos_type filesize(const char* filename);
+
+        /**
+         * @brief 
+         * 
+         */
+        void LogFileName();
 
     private:
         static Logger *m_Instance;
@@ -154,6 +255,9 @@ namespace Logger_Project
         LogLevel m_LogLevel;
         LogLevel m_currentLog;
         std::mutex m_mutex;
+        int fileCount{1};
+        std::string reservedFileName;
+        std::string logFileName;
     };
 }
 #endif // End of _LOGGER_H_

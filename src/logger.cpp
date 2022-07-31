@@ -10,34 +10,40 @@ using namespace Logger_Project;
 
 Logger* Logger::m_Instance = 0;
 
-std::string LogMidName()
-{
-   std::string currTime;
-   //Current date/time based on current time
-   time_t now = time(0); 
-
-   // Convert current time to string
-   currTime.assign(ctime(&now));
-
-   // Last charactor of currentTime is "\n", so remove it
-   std::string currentTime = currTime.substr(0, currTime.size()-1);
-   return currentTime;
-}
-
 Logger::Logger()
 {
-   //Log file name
-   std::string prefix = "../logs/<CUSTOMENAME>_"; 
-   std::string suffix = ".log";
-   std::string middleDiff = LogMidName();
-   const std::string logFileName = prefix + middleDiff + suffix;
-   m_File.open(logFileName.c_str(), std::ios::out|std::ios::app);
+   if(FILE_LOG)
+   {
+      this->LogFileName();
+   }
 
    // Replace Enable log to change the log level
    m_LogLevel = ENABLE_LOG;      
 }
 
-Logger::~Logger() {}
+void Logger::LogFileName()
+{
+   std::string prefix = "../logs/<CUSTOMENAME>_"; 
+   std::string suffix = ".log";
+   std::string middle = this->getCurrentTime();
+   reservedFileName = prefix + middle + "_";
+   logFileName = reservedFileName + std::to_string(fileCount) + suffix;
+   m_File.open(logFileName.c_str(), std::ios::out|std::ios::app);
+}
+
+Logger::~Logger()
+{
+   if(FILE_LOG)
+   {
+      m_File.close();
+   }
+}
+
+std::ifstream::pos_type Logger::filesize(const char* filename)
+{
+   std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
+   return in.tellg(); 
+}
 
 Logger* Logger::getInstance()
 {
@@ -54,6 +60,13 @@ void Logger::helper()
    if((FILE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
    {
          m_File << std::endl;
+         if(filesize(logFileName.c_str()) > FILE_SIZE_IN_MB*1000000)
+         {
+            m_File.close();
+            fileCount++;
+            logFileName = reservedFileName + std::to_string(fileCount) + ".log";
+            m_File.open(logFileName.c_str(), std::ios::out|std::ios::app);
+         }
    }
    if((CONSOLE_LOG) && (m_LogLevel >= LOG_LEVEL_ERROR))
    {
