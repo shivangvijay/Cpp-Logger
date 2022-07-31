@@ -16,9 +16,12 @@
 #include <ctime>
 #include "config.h"
 
+// set config
 #define FILE_LOG true
 #define CONSOLE_LOG true
 #define FILE_SIZE_IN_MB 50   //for rollover
+#define PREFIX_NAME "<CUSTOMIZE>"
+#define SET_LOG_LEVEL 6
 
 namespace Logger_Project
 {

@@ -18,12 +18,12 @@ Logger::Logger()
    }
 
    // Replace Enable log to change the log level
-   m_LogLevel = ENABLE_LOG;      
+   m_LogLevel = (LOG_LEVEL) SET_LOG_LEVEL;      
 }
 
 void Logger::LogFileName()
 {
-   std::string prefix = "../logs/<CUSTOMENAME>_"; 
+   std::string prefix = "../logs/" + (std::string)PREFIX_NAME + "_"; 
    std::string suffix = ".log";
    std::string middle = this->getCurrentTime();
    reservedFileName = prefix + middle + "_";
