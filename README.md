@@ -31,8 +31,10 @@ C++ Logger designed to be as simple to use, easy to customize and very use full 
 
 # Usage
 
-Step 1: – Add #include <logger.h>
+Step 1: – Add #include <logger.h> <br />
 Step 2:- Use it. 
+
+![alt text](https://github.com/shivangv6/Logger/blob/main/images/Example.png?raw=true)
 
 Refer examples.cpp to explore more way to use.
 
