@@ -21,3 +21,22 @@ C++ Logger designed to be as simple to use, easy to customize and very use full 
 - Very Fast, Small and Simple Logger.
 
 
+## Install
+
+``$ git clone https://github.com/shivangv6/Logger.git `` <br />
+``$ cd Logger && mkdir build && cd build`` <br />
+``$ cmake .. `` <br />
+``$ make`` <br />
+
+
+# Usage
+
+Step 1: – Add #include <logger.h>
+Step 2:- Use it. 
+
+Refer examples.cpp to explore more way to use.
+
+
+
+
+
