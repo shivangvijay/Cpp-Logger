@@ -36,7 +36,41 @@ Step 2:- Use it.
 
 ![alt text](https://github.com/shivangv6/Logger/blob/main/images/Example.png?raw=true)
 
+Output:- 
+
+![alt text](https://github.com/shivangv6/Logger/blob/main/images/output_example.png?raw=true)
+
 Refer examples.cpp to explore more way to use.
+
+## Customize
+
+Many things are customize through macro function in logger.h file.
+
+![alt text](https://github.com/shivangv6/Logger/blob/main/images/config.png?raw=true)
+
+1. FILE LOG:- If required make true, otherwise false
+2. CONSOLE LOG:- If required make true, otherwise false
+3. Rollover:- File size (in MB) after which the new file generated with same name with +1 count number
+4. Prefix of File name.
+5. Log Levels
+    - DISABLE_LOG = 1,
+    - LOG_LEVEL_ERROR = 2,
+    - LOG_LEVEL_TRACE = 3,
+    - LOG_LEVEL_DEBUG = 4,
+    - LOG_LEVEL_INFO = 5,
+    - ENABLE_LOG = 6.
+  
+Currently I added only 4 levels (ERROR, TRACE, DEBUG, INFO) but other levels or severity can be added easily. 
+
+# Contribution
+
+## GitHub
+
+Please fill bug reports and feature requests here: https://github.com/shivangv6/Logger/issues <br />
+Fork the repository, make some changes and submit them with pull-request 
+
+## Contact
+Email ID:- shivangvijay@gmail.com, I will answer any questions and requests.
 
 
 
