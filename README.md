@@ -66,7 +66,7 @@ Currently I added only 4 levels (ERROR, TRACE, DEBUG, INFO) but other levels or 
 
 ## GitHub
 
-Please fill bug reports and feature requests here: https://github.com/shivangv6/Logger/issues <br />
+Please fill bug reports and feature requests here: https://github.com/shivangvijay/Logger/issues <br />
 Fork the repository, make some changes and submit them with pull-request 
 
 ## Contact
